@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   check:
-    name: Typecheck and test
+    name: Typecheck, test, and smoke test
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -22,3 +22,7 @@ jobs:
         run: npm install --ignore-scripts --no-audit --no-fund
       - name: Typecheck and test
         run: npm run check
+      - name: Smoke test GitHub REST API integration
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: npm start -- "$GITHUB_REPOSITORY" --json > /dev/null
